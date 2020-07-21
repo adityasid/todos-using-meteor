@@ -5,14 +5,6 @@ import Tasks from '/imports/api/tasks';
 // import { TaskForm } from './TaskForm';
 import { LoginForm } from './LoginForm';
 
-// const toggleChecked = ({ _id, isChecked }) => {
-//   Tasks.update(_id, {
-//     $set: {
-//       isChecked: !isChecked
-//     }
-//   })
-// };
-
 const deleteTask = ({ _id }) => Tasks.remove(_id);
 
 export const App = () => {
@@ -32,6 +24,8 @@ export const App = () => {
   return (
     <div className="simple-todos-react">
       <h1>Welcome to Meteor!</h1>
+
+      <h2>Hi {user.username}</h2>
 
       {/* <ul className="tasks">
         {tasks.map(task => <Task
