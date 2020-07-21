@@ -5,6 +5,7 @@ import { Task } from './Task';
 import { Tasks } from '/imports/api/tasks';
 import { TaskForm } from './TaskForm';
 import { LoginForm } from './LoginForm';
+import { Particle } from './Particles';
 
 const toggleChecked = ({ _id, isChecked }) => {
   Meteor.call('tasks.setChecked', _id, !isChecked);
@@ -37,28 +38,36 @@ export const App = () => {
 
   if (!user) {
     return (
-      <div className="simple-todos-react">
-        <LoginForm />
+      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
+        <Particle />
+        <div className="simple-todos-react">
+          <LoginForm />
+        </div>
+
       </div>
     );
   }
 
   return (
-    <div className="simple-todos-react">
-      <h2 className="user-Name">User: {user.username}</h2>
-      <h1>Todo List ({incompleteTasksCount})</h1>
+    <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
+      <Particle />
+      <div className="simple-todos-react">
 
-      <ul className="tasks">
-        {tasks.map(task => <Task
-          key={task._id}
-          task={task}
-          onCheckboxClick={toggleChecked}
-          onDeleteClick={deleteTask}
-          onTogglePrivateClick={togglePrivate}
-        />)}
-      </ul>
+        <h2 className="user-Name">User: {user.username}</h2>
+        <h1>Todo List ({incompleteTasksCount})</h1>
 
-      <TaskForm />
+        <ul className="tasks">
+          {tasks.map(task => <Task
+            key={task._id}
+            task={task}
+            onCheckboxClick={toggleChecked}
+            onDeleteClick={deleteTask}
+            onTogglePrivateClick={togglePrivate}
+          />)}
+        </ul>
+
+        <TaskForm />
+      </div>
     </div>
   );
 };
