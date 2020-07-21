@@ -1,9 +1,11 @@
 import assert from "assert";
 
-describe("my-recipe-book", function () {
+import "../imports/api/tasks.tests.js";
+
+describe("simple-todos-react", function () {
   it("package.json has correct name", async function () {
     const { name } = await import("../package.json");
-    assert.strictEqual(name, "my-recipe-book");
+    assert.strictEqual(name, "simple-todos-react");
   });
 
   if (Meteor.isClient) {

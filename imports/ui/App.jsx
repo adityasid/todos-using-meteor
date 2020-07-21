@@ -1,19 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-// import { Task } from './Task';
-import Tasks from '/imports/api/tasks';
-// import { TaskForm } from './TaskForm';
+import _ from 'lodash';
+import { Task } from './Task';
+import { Tasks } from '/imports/api/tasks';
+import { TaskForm } from './TaskForm';
 import { LoginForm } from './LoginForm';
 
-const deleteTask = ({ _id }) => Tasks.remove(_id);
+// const toggleChecked = ({ _id, isChecked }) => {
+//   Meteor.call('tasks.setChecked', _id, !isChecked);
+// };
+
+// const togglePrivate = ({ _id, isPrivate }) => {
+//   Meteor.call('tasks.setPrivate', _id, !isPrivate);
+// };
+
+// const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id);
 
 export const App = () => {
-  const { user } = useTracker(() => ({
-    user: Meteor.user(),
-  }));
+  const filter = {};
+
+  // const [hideCompleted, setHideCompleted] = useState(false);
+
+  // if (hideCompleted) {
+  //   _.set(filter, 'checked', false);
+  // }
+
+  const { tasks, user } = useTracker(() => {
+    Meteor.subscribe('tasks');
+
+    return ({
+      tasks: Tasks.find(filter, { sort: { createdAt: -1 } }).fetch(),
+      user: Meteor.user(),
+    });
+  });
 
   if (!user) {
-    // console.log(user);
     return (
       <div className="simple-todos-react">
         <LoginForm />
@@ -23,20 +44,26 @@ export const App = () => {
 
   return (
     <div className="simple-todos-react">
-      <h1>Welcome to Meteor!</h1>
+      <h1>Todo List</h1>
 
-      <h2>Hi {user.username}</h2>
+      <div className="filters">
+        <label>
+          <input
+            type="checkbox"
+            readOnly
+          />
+          Hide Completed
+        </label>
+      </div>
 
-      {/* <ul className="tasks">
+      <ul className="tasks">
         {tasks.map(task => <Task
           key={task._id}
           task={task}
-          onCheckboxClick={toggleChecked}
-          onDeleteClick={deleteTask}
         />)}
-      </ul> */}
-      {/* <TaskForm /> */}
+      </ul>
 
+      <TaskForm />
     </div>
   );
 };
