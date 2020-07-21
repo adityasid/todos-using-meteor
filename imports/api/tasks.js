@@ -29,6 +29,9 @@ Meteor.methods({
     }
 
     Tasks.remove(taskId);
+
+    // Removing all documents from a collection
+    // Tasks.remove({});
   },
 
   'tasks.setChecked'(taskId, isChecked) {
@@ -67,7 +70,7 @@ Meteor.methods({
 });
 
 if (Meteor.isServer) {
-  Meteor.publish('tasks', function() {
+  Meteor.publish('tasks', function () {
     return Tasks.find({
       $or: [
         { private: { $ne: true } },

@@ -74,3 +74,9 @@ body {
 .simple-todos-react .login-form button[type=submit] {
   float: right;
 }
+
+.user-Name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

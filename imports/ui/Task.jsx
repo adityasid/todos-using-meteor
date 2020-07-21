@@ -8,13 +8,14 @@ export const Task = ({ task, onCheckboxClick, onDeleteClick, onTogglePrivateClic
 
   return (
     <li className={classes}>
-      <button onClick={ () => onDeleteClick(task) }>&times;</button>
-      <button onClick={ () => onTogglePrivateClick(task) }>{ task.isPrivate ? 'Private' : 'Public' }</button>
-      <span>{ task.text } { task.username && <i>({ task.username })</i> }</span>
+      <button onClick={() => onDeleteClick(task)}>&times;</button>
+      {/* <button onClick={() => onTogglePrivateClick(task)}>{task.isPrivate ? 'Private' : 'Public'}</button> */}
+      {/* <span>{task.text} {task.username && <i>({task.username})</i>}</span> */}
+      <span>{task.text}</span>
       <input
         type="checkbox"
-        checked={ Boolean(task.isChecked) }
-        onClick={ () => onCheckboxClick(task) }
+        checked={Boolean(task.isChecked)}
+        onClick={() => onCheckboxClick(task)}
         readOnly
       />
     </li>

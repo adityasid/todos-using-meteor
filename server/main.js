@@ -8,6 +8,10 @@ Meteor.startup(() => {
       password: 'pass'
     });
   } else {
+    // Remove user one user
     // Meteor.users.remove({ username: 'aditya' });
+
+    // Remove user one user
+    // Meteor.users.remove({});
   }
 });

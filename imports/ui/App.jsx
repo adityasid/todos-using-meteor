@@ -6,30 +6,31 @@ import { Tasks } from '/imports/api/tasks';
 import { TaskForm } from './TaskForm';
 import { LoginForm } from './LoginForm';
 
-// const toggleChecked = ({ _id, isChecked }) => {
-//   Meteor.call('tasks.setChecked', _id, !isChecked);
-// };
+const toggleChecked = ({ _id, isChecked }) => {
+  Meteor.call('tasks.setChecked', _id, !isChecked);
+};
 
-// const togglePrivate = ({ _id, isPrivate }) => {
-//   Meteor.call('tasks.setPrivate', _id, !isPrivate);
-// };
+const togglePrivate = ({ _id, isPrivate }) => {
+  Meteor.call('tasks.setPrivate', _id, !isPrivate);
+};
 
-// const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id);
+const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id);
 
 export const App = () => {
   const filter = {};
 
-  // const [hideCompleted, setHideCompleted] = useState(false);
+  const [hideCompleted, setHideCompleted] = useState(false);
 
-  // if (hideCompleted) {
-  //   _.set(filter, 'checked', false);
-  // }
+  if (hideCompleted) {
+    _.set(filter, 'checked', false);
+  }
 
-  const { tasks, user } = useTracker(() => {
+  const { tasks, incompleteTasksCount, user } = useTracker(() => {
     Meteor.subscribe('tasks');
 
     return ({
       tasks: Tasks.find(filter, { sort: { createdAt: -1 } }).fetch(),
+      incompleteTasksCount: Tasks.find({ checked: { $ne: true } }).count(),
       user: Meteor.user(),
     });
   });
@@ -44,22 +45,16 @@ export const App = () => {
 
   return (
     <div className="simple-todos-react">
-      <h1>Todo List</h1>
-
-      <div className="filters">
-        <label>
-          <input
-            type="checkbox"
-            readOnly
-          />
-          Hide Completed
-        </label>
-      </div>
+      <h2 className="user-Name">User: {user.username}</h2>
+      <h1>Todo List ({incompleteTasksCount})</h1>
 
       <ul className="tasks">
         {tasks.map(task => <Task
           key={task._id}
           task={task}
+          onCheckboxClick={toggleChecked}
+          onDeleteClick={deleteTask}
+          onTogglePrivateClick={togglePrivate}
         />)}
       </ul>
 
